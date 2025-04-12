@@ -53,10 +53,10 @@ main(
     sampler_enabled=True,
     layer1=8,
     layer2=16,
-    epochs=20,
-    batch_size=32,
+    epochs=10,
+    batch_size=16,
     learning_rate=0.01,
     dataset_filename="skin_nskin.npy",
     test_images_folder=r"C:\Users\alvar\Documents\Universidad\2025-1\Artificial Intelligence\Tarea1\dataset_with_mask",
-    threshold=0.5
+    threshold=0.2
 )

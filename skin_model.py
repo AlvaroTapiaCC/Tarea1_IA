@@ -167,4 +167,6 @@ class Evaluator():
             print("Valores encontrados en y_true:", np.unique(all_true_np))
             return
         self.plot_roc_curve(all_true_np, all_scores_np)
+    
+
 
