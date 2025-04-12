@@ -81,6 +81,9 @@ class Trainer():
         return (preds == labels).sum().item()
 
     def train(self):
+        self.losses = []
+        self.val_losses = []
+        
         for epoch in range(self.epochs):
             acc = 0.0
             val_loss = 0.0
@@ -97,6 +100,9 @@ class Trainer():
                 self.optimizer.step()
                 epoch_loss += loss.item() / len(self.train_loader)
                 acc += self._calculate_accuracy(outputs, labels)
+            
+            self.losses.append(epoch_loss)
+            
             with torch.no_grad():
                 self.model.eval()
                 for i, data in enumerate(self.val_loader):
@@ -106,6 +112,9 @@ class Trainer():
                     outputs = self.model(inputs)
                     val_loss += self.loss_fn(outputs, labels).item() / len(self.val_loader)
                     acc += self._calculate_accuracy(outputs, labels)
+                
+    
+                self.val_losses.append(val_loss)
 
 class Evaluator():
     def __init__(self, model, device, threshold):
@@ -167,4 +176,13 @@ class Evaluator():
             print("Valores encontrados en y_true:", np.unique(all_true_np))
             return
         self.plot_roc_curve(all_true_np, all_scores_np)
-
+    
+    def loss_tra_val(self, train_losses, val_losses):
+        plt.figure(figsize=(8, 6))
+        plt.plot(train_losses, color='blue', label='Train Loss')
+        plt.plot(val_losses, color='orange', label='Validation Loss')
+        plt.xlabel('Epoch')
+        plt.ylabel('Loss')
+        plt.title('Training and Validation Loss')
+        plt.legend()
+        plt.show()
